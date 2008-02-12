@@ -1,45 +1,74 @@
 package gpstrack;
 
+import gpstrack.model.Recorder;
+import gpstrack.prefs.Preferences;
+
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URL;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * UI Prototype for GPS Track program for OpenStreetMap data.
+ */
 public class GpsTrack {
 
 	private static final String FILENAME_FORMAT = "YYYYMMDDHHMM.gpx";
+	private final static String filenameFormat = "%1$tY%1$tm%1$td%1$tH%1$tM.gpx";
 
 	public static void main(String[] args) {
 		new GpsTrack();
 	}
 
-	final static String filenameFormat = "%1$tY%1$tm%1$td%1$tH%1$tM.gpx";
-	final JLabel fileNameLabel = new JLabel(FILENAME_FORMAT);
+	// Share GUI components
+	private Preferences prefs = new Preferences();
+	private JDialog prefsDialog;
+	private final JLabel fileNameLabel = new JLabel(FILENAME_FORMAT);
+	private final JButton startButton = new JButton("Start");
+	// space at end to make room for "Resume"
+	private final JButton pauseButton = new JButton("Pause");
+	final JButton stopButton = new JButton("Stop");
+	
+	// Local State
 	private String fileName;
 	private boolean paused = false;
 
-	GpsTrack() {
-		JFrame f = new JFrame("GPSTrack");
+	public GpsTrack() {
+		final JFrame mainFrame = new JFrame("GPSTrack");
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.out.println("Saving your file.");
+				super.windowClosing(e);
+			}
+		});
 
 		final URL iconFileURL = getClass().getClassLoader().getResource(
 				"images/gpstrack.png");
-		System.out.println(iconFileURL);
 		final Image image =
 			Toolkit.getDefaultToolkit().getImage(iconFileURL);
-		f.setIconImage(image);
+		mainFrame.setIconImage(image);
 
 		JMenuBar bar = new JMenuBar();
-		f.setJMenuBar(bar);
+		mainFrame.setJMenuBar(bar);
 
 		final JMenu fileMenu = new JMenu("File");
 		bar.add(fileMenu);
@@ -52,9 +81,34 @@ public class GpsTrack {
 			}
 		});
 		fileMenu.add(mi);
-		bar.add(new JMenu("Edit"));
-		bar.add(new JMenu("Settings"));
-		bar.add(new JMenu("Help"));
+
+		final JMenu editMenu = new JMenu("Edit");
+		bar.add(editMenu);
+		final Action prefsAction = new AbstractAction("Prefs") {
+			private static final long serialVersionUID = -1834592522741890639L;
+
+			public void actionPerformed(ActionEvent e) {
+				if (prefsDialog == null) {
+					prefsDialog = new PreferencesDialog(mainFrame, prefs);
+				}
+				prefsDialog.setVisible(true);
+			}
+		};
+		mi = new JMenuItem(prefsAction);
+		editMenu.add(mi);
+
+		final JMenu helpMenu = new JMenu("Help");
+		bar.add(helpMenu);
+		mi = new JMenuItem("About");
+		helpMenu.add(mi);
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(mainFrame,
+						"GPSTrack 0.0",
+						"About GPSTrack",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 
 		// Row 1
 		JPanel row1 = new JPanel();
@@ -65,51 +119,66 @@ public class GpsTrack {
 		row1.add(new JLabel("Longitude"));
 		final JLabel lonText = new JLabel("-79.932650");
 		row1.add(lonText);
-
-		f.add(row1, BorderLayout.NORTH);
+		
+		// XXX will look better when inner class has icon
+		row1.add(new JButton(prefsAction));
+		
+		mainFrame.add(row1, BorderLayout.NORTH);
 
 		// Row 2
 		JPanel row2 = new JPanel();
-		final JButton startButton = new JButton("Start");
-		// space at end to make room for "Resume"
-		final JButton pauseButton = new JButton("Pause ");
-		final JButton stopButton = new JButton("Stop");
-		row2.add(startButton);
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				startButton.setEnabled(false);
-				stopButton.setEnabled(true);
-				openFile();
+				startAction();
 			}
 		});
+		row2.add(startButton);
 		row2.add(fileNameLabel);
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				paused = !paused;
-				pauseButton.setText(
-					paused ? "Resume" : "Pause ");
+				pauseAction();
 			}
 		});
 		row2.add(pauseButton);
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				stopButton.setEnabled(false);
-				startButton.setEnabled(true);
-				closeFile();
+				stopAction(startButton, stopButton);
 			}
 		});
 		row2.add(stopButton);
-		f.add(row2, BorderLayout.CENTER);
+		mainFrame.add(row2, BorderLayout.CENTER);
 
 		// Row 3
 		JPanel row3 = new JPanel();
-		row3.add(new JButton("Txt Anno"));
-		row3.add(new JButton("Voice Anno"));
-		f.add(row3, BorderLayout.SOUTH);
+		final JButton textNoteButton = new JButton("Text Note");
+		textNoteButton.setEnabled(false);
+		row3.add(textNoteButton);
+		final JButton voiceNoteButton = new JButton("Voice Note");
+		voiceNoteButton.setEnabled(false);
+		row3.add(voiceNoteButton);
+		mainFrame.add(row3, BorderLayout.SOUTH);
 
-		f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		f.pack();
-		f.setVisible(true);
+		mainFrame.pack();
+		mainFrame.setVisible(true);
+	}
+	
+	private void startAction() {
+		startButton.setEnabled(false);
+		stopButton.setEnabled(true);
+		Runnable recorder = new Recorder();
+		new Thread(recorder).start();
+	}
+	
+	private void pauseAction() {
+		paused = !paused;
+		pauseButton.setText(
+			paused ? "Resume" : "Pause ");
+		}
+	
+	private void stopAction(final JButton startButton, final JButton stopButton) {
+		stopButton.setEnabled(false);
+		startButton.setEnabled(true);
+		closeFile();
 	}
 
 	protected void openFile() {
@@ -128,4 +197,5 @@ public class GpsTrack {
 		fileNameLabel.setText(FILENAME_FORMAT);
 		fileNameLabel.setEnabled(false);
 	}
+
 }
