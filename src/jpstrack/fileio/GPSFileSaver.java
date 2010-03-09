@@ -1,6 +1,6 @@
-package gpstrack.fileio;
+package jpstrack.fileio;
 
-import gpstrack.model.Reading;
+import jpstrack.model.Reading;
 
 import java.io.File;
 import java.io.FileNotFoundException;

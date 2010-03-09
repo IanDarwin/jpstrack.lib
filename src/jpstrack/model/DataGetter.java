@@ -1,4 +1,4 @@
-package gpstrack.model;
+package jpstrack.model;
 
 
 /** The interface for getting data from the GPS.

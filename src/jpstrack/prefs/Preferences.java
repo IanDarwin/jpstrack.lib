@@ -1,4 +1,4 @@
-package gpstrack.prefs;
+package jpstrack.prefs;
 
 /**
  * POJO to track preferences values

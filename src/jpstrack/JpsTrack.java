@@ -1,7 +1,7 @@
-package gpstrack;
+package jpstrack;
 
-import gpstrack.model.Recorder;
-import gpstrack.prefs.Preferences;
+import jpstrack.model.Recorder;
+import jpstrack.prefs.Preferences;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
@@ -27,13 +27,13 @@ import javax.swing.JPanel;
 /**
  * UI Prototype for GPS Track program for OpenStreetMap data.
  */
-public class GpsTrack {
+public class JpsTrack {
 
 	private static final String FILENAME_FORMAT = "YYYYMMDDHHMM.gpx";
 	private final static String filenameFormat = "%1$tY%1$tm%1$td%1$tH%1$tM.gpx";
 
 	public static void main(String[] args) {
-		new GpsTrack();
+		new JpsTrack();
 	}
 
 	// Share GUI components
@@ -49,7 +49,7 @@ public class GpsTrack {
 	private String fileName;
 	private boolean paused = false;
 
-	public GpsTrack() {
+	public JpsTrack() {
 		final JFrame mainFrame = new JFrame("GPSTrack");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -189,6 +189,10 @@ public class GpsTrack {
 		this.fileName = fileName;
 		fileNameLabel.setText(fileName);
 		fileNameLabel.setEnabled(true);
+	}
+	
+	public String getFileName() {
+		return this.fileName;
 	}
 
 	protected void closeFile() {

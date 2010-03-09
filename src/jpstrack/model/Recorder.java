@@ -1,7 +1,8 @@
-package gpstrack.model;
+package jpstrack.model;
 
 
 public class Recorder implements Runnable {
+
 	public static final int SECONDS = 2;
 	
 	private int seconds = SECONDS;

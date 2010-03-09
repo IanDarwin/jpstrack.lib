@@ -1,4 +1,4 @@
-package gpstrack.model;
+package jpstrack.model;
 
 import java.util.Date;
 

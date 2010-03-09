@@ -1,6 +1,6 @@
-package gpstrack;
+package jpstrack;
 
-import gpstrack.prefs.Preferences;
+import jpstrack.prefs.Preferences;
 
 import java.awt.Frame;
 import java.awt.GridLayout;
