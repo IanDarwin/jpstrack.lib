@@ -1,19 +1,17 @@
 package jpstrack.fileio;
 
-import jpstrack.model.Reading;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class GPSFileSaver {
 	
-	private String startingDir;
+	private String startingDir = ".";
 	
-	private String template;
+	private String template = "test,gpx";
 	
 	private PrintWriter out;
 	
@@ -56,17 +54,17 @@ public class GPSFileSaver {
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.00Z");
 	Date date = new Date();
 	
-	public void write(Reading data) {
-		out.printf("<trkpt lat='%f' lon='%f'>%n", data.getLatitude(), data.getLongitude());
+	public void write(long time, double latitude, double longitude) {
+		out.printf("<trkpt lat='%f' lon='%f'>%n", latitude, longitude);
 		out.printf("    <fix>3d</fix>%n");
 		out.printf("    <ele>0</ele>%n");
-		date.setTime(data.getTime());
+		date.setTime(time);
 		out.printf("    <time>%s</time>%n", df.format(date));
 		out.printf("</trkpt>");
 		out.flush();
 	}
 	
-	public void close() {
+	public void endFile() {
 		out.println("</trkseg>");
 		out.println("</trk>");
 		out.println("</gpx>");
