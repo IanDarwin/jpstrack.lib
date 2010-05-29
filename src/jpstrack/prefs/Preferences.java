@@ -3,15 +3,29 @@ package jpstrack.prefs;
 /**
  * POJO to track preferences values
  */
-public class Preferences {
+public abstract class Preferences {
 	/** file save directory */
 	private String directoryPath;
 	/** filename format */
 	private String fileNameFormat;
-	/** username for uploading */
+	/** OSM username for uploading */
 	private String userName;
-	/** password for upload account */
+	/** password for OSM upload account */
 	private String password;
+	
+	private static final String FILENAME_FORMAT = "YYYYMMDDHHMM.gpx";
+	private final static String filenameFormat = "%1$tY%1$tm%1$td%1$tH%1$tM.gpx";
+
+	
+	public abstract String getDefaultDirectoryPath();
+	
+	public String getDefaultFilenameFormat() {
+		return FILENAME_FORMAT;
+	}
+	
+	public String getNextFilename() {
+		return String.format(filenameFormat, System.currentTimeMillis());		
+	}
 
 	public String getDirectoryPath() {
 		return directoryPath;

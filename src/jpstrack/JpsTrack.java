@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.net.URL;
 
 import javax.swing.AbstractAction;
@@ -29,17 +30,24 @@ import javax.swing.JPanel;
  */
 public class JpsTrack {
 
-	private static final String FILENAME_FORMAT = "YYYYMMDDHHMM.gpx";
-	private final static String filenameFormat = "%1$tY%1$tm%1$td%1$tH%1$tM.gpx";
 
 	public static void main(String[] args) {
 		new JpsTrack();
 	}
 
 	// Share GUI components
-	private Preferences prefs = new Preferences();
+	private Preferences prefs = new Preferences() {
+
+		@Override
+		public String getDefaultDirectoryPath() {
+			String home = System.getProperty("user.home");
+			String rest = ".jpstrack";
+			return home + File.separator + rest;
+		}
+		
+	};
 	private JDialog prefsDialog;
-	private final JLabel fileNameLabel = new JLabel(FILENAME_FORMAT);
+	private final JLabel fileNameLabel = new JLabel(prefs.getDefaultFilenameFormat());
 	private final JButton startButton = new JButton("Start");
 	// space at end to make room for "Resume"
 	private final JButton pauseButton = new JButton("Pause");
@@ -181,7 +189,7 @@ public class JpsTrack {
 	}
 
 	protected void openFile() {
-		String now = String.format(filenameFormat, System.currentTimeMillis());
+		String now = prefs.getNextFilename();
 		setFileName(now);
 	}
 
@@ -197,8 +205,8 @@ public class JpsTrack {
 
 	protected void closeFile() {
 		this.fileName = null;
-		fileNameLabel.setText(FILENAME_FORMAT);
-		fileNameLabel.setEnabled(false);
+//		fileNameLabel.setText(FILENAME_FORMAT);
+//		fileNameLabel.setEnabled(false);
 	}
 
 }
