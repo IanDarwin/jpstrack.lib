@@ -1,4 +1,4 @@
-package jpstrack.swing;
+package jpstrack.javase;
 
 import jpstrack.model.Recorder;
 import jpstrack.prefs.Preferences;
