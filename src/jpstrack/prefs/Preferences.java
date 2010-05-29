@@ -16,6 +16,11 @@ public abstract class Preferences {
 	private static final String FILENAME_FORMAT = "YYYYMMDDHHMM.gpx";
 	private final static String filenameFormat = "%1$tY%1$tm%1$td%1$tH%1$tM.gpx";
 
+	/** This may become a facility for interpreting filename formats */
+	//	private static Map<String,String> formatMap = new HashMap<String,String>();
+	//	static {
+	//		formatMap.put("YYYY", "$tY");
+	//	}
 	
 	public abstract String getDefaultDirectoryPath();
 	
