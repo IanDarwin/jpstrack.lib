@@ -1,7 +1,5 @@
 package jpstrack.javase;
 
-import jpstrack.prefs.Preferences;
-
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,7 +15,7 @@ import com.darwinsys.swingui.LabelText;
 public class PreferencesDialog extends JDialog {
 
 	private static final long serialVersionUID = -203160926116576495L;
-	private final Preferences preferences;
+	private final JavaSEPreferences preferences;
 	
 	WindowListener loader = new WindowAdapter() {
 		@Override
@@ -25,20 +23,26 @@ public class PreferencesDialog extends JDialog {
 			userNameLabelText.setText(preferences.getUserName());
 			passwordLabelText.setText(preferences.getPassword());
 			dirPathLabelText.setText(preferences.getDirectoryPath());
+			gpsdHostLabelText.setText(preferences.getGpsdHost());
+			gpsdPortLabelText.setText(Integer.toString(preferences.getGpsdPort()));
 		}
 	};
 
 	final LabelText userNameLabelText = new LabelText("User");
 	final LabelText passwordLabelText = new LabelText("Password");
 	final LabelText dirPathLabelText = new  LabelText("DirectoryPath");
-
-	public PreferencesDialog(Frame owner, Preferences prefs) {
+	final LabelText gpsdHostLabelText = new LabelText("GPSD Host");
+	final LabelText gpsdPortLabelText = new LabelText("GPSD Port");
+	
+	public PreferencesDialog(Frame owner, JavaSEPreferences prefs) {
 		super(owner, true);
 		this.preferences = prefs;
 		setLayout(new GridLayout(0, 1));
 		add(userNameLabelText);
 		add(passwordLabelText);
 		add(dirPathLabelText);
+		add(gpsdHostLabelText);
+		add(gpsdPortLabelText);
 		
 		JButton okButton = new JButton("OK");
 		add(okButton);
@@ -51,5 +55,6 @@ public class PreferencesDialog extends JDialog {
 				PreferencesDialog.this.dispose();
 			}
 		});
+		pack();
 	}
 }
