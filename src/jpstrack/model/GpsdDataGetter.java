@@ -39,6 +39,10 @@ public class GpsdDataGetter implements DataGetter {
 			return null;
 		}
 		String type = tok.nextToken();
+		if (!"GPSD".equals(type)) {
+			throw new IllegalStateException(
+			"Dunno what I connected to, but it's not GPSD:" + line);
+		}
 		Reading r = new Reading();
 		String time_t = tok.nextToken(".");
 		long time = Long.parseLong(time_t.trim());
