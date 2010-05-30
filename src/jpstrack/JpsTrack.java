@@ -1,8 +1,5 @@
 package jpstrack.javase;
 
-import jpstrack.model.Recorder;
-import jpstrack.prefs.Preferences;
-
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -10,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.net.URL;
 
 import javax.swing.AbstractAction;
@@ -25,6 +21,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import jpstrack.model.Recorder;
+import jpstrack.prefs.Preferences;
+
 /**
  * UI Prototype for GPS Track program for OpenStreetMap data.
  */
@@ -36,16 +35,8 @@ public class JpsTrack {
 	}
 
 	// Share GUI components
-	private Preferences prefs = new Preferences() {
-
-		@Override
-		public String getDefaultDirectoryPath() {
-			String home = System.getProperty("user.home");
-			String rest = ".jpstrack";
-			return home + File.separator + rest;
-		}
+	private Preferences prefs = new JavaSEPreferences();
 		
-	};
 	private JDialog prefsDialog;
 	private final JLabel fileNameLabel = new JLabel(prefs.getDefaultFilenameFormat());
 	private final JButton startButton = new JButton("Start");
@@ -96,7 +87,7 @@ public class JpsTrack {
 
 			public void actionPerformed(ActionEvent e) {
 				if (prefsDialog == null) {
-					prefsDialog = new PreferencesDialog(mainFrame, prefs);
+					prefsDialog = new PreferencesDialog(mainFrame, (JavaSEPreferences)prefs);
 				}
 				prefsDialog.setVisible(true);
 			}
