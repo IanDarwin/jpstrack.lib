@@ -2,7 +2,7 @@ Portability.
 
 Android version:
 	Reorganize to get service in onResume if not running
-	Preferences not in dalvik file
+	Get Preferences working, remove hard-coded directory path.
 	take picture, add text note
 	Stay running / Run as service?
 	
