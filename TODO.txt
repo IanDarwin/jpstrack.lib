@@ -1,0 +1,8 @@
+Portability.
+
+Android version:
+	take picture, add sound note, add text note
+	Run as service?
+	
+JavaSE version
+	Catch bg-thread exceptions
