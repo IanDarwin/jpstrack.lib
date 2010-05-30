@@ -1,8 +1,10 @@
 Portability.
 
 Android version:
-	take picture, add sound note, add text note
-	Run as service?
+	Reorganize to get service in onResume if not running
+	Preferences not in dalvik file
+	take picture, add text note
+	Stay running / Run as service?
 	
 JavaSE version
 	Catch bg-thread exceptions
