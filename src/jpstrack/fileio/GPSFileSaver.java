@@ -11,22 +11,21 @@ public class GPSFileSaver {
 	
 	private String startingDir = ".";
 	
-	private String template = "test,gpx";
+	private String fileName = "test,gpx";
 	
 	private PrintWriter out;
 	
-	public GPSFileSaver(String startingDir, String template) {
+	public GPSFileSaver(String startingDir, String fileName) {
 		this.startingDir = startingDir;
-		this.template = template;
+		this.fileName = fileName;
 	}
 	
 	public GPSFileSaver() {
 		// nothing, do setup via setters
 	}
 	
-	public void startFile() {
-		File f = new File(startingDir, template);
-		System.out.println("GPSFileSaver.startFile(): file = " + f.getAbsolutePath());
+	public File startFile() {
+		File f = new File(startingDir, fileName);
 		try {
 			out = new PrintWriter(f);
 			out.println("<?xml version='1.0' encoding='utf-8'?>");
@@ -46,6 +45,7 @@ public class GPSFileSaver {
 			out.println("<!-- track start -->");
 			out.println("<trk>");
 			out.println("<trkseg>");
+			return f;
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException("Can't create file " + f, e);
 		}
@@ -79,10 +79,10 @@ public class GPSFileSaver {
 	public void setStartingDir(String startingDir) {
 		this.startingDir = startingDir;
 	}
-	public String getTemplate() {
-		return template;
+	public String getfileName() {
+		return fileName;
 	}
-	public void setTemplate(String template) {
-		this.template = template;
+	public void setfileName(String fileName) {
+		this.fileName = fileName;
 	}
 }
