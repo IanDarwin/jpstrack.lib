@@ -3,7 +3,7 @@ package jpstrack.fileio;
 public class FileNameUtils {
 	
 	private static final String FILENAME_FORMAT = "YYYYMMDDHHMM";
-	public static final String GPX_FILENAME_EXTENSION = ".gpx";
+	public static final String GPX_FILENAME_EXTENSION = "gpx";
 	private final static String FILENAME_PRINTF_TEMPLATE = "%1$tY%1$tm%1$td%1$tH%1$tM";
 
 	/** This may become a facility for interpreting filename formats */
