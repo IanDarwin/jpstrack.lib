@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import jpstrack.fileio.FileNameUtils;
 import jpstrack.model.Recorder;
 import jpstrack.prefs.Preferences;
 
@@ -38,7 +39,7 @@ public class JpsTrack {
 	private Preferences prefs = new JavaSEPreferences();
 		
 	private JDialog prefsDialog;
-	private final JLabel fileNameLabel = new JLabel(prefs.getDefaultFilenameFormat());
+	private final JLabel fileNameLabel = new JLabel(FileNameUtils.getDefaultFilenameFormatWithExt());
 	private final JButton startButton = new JButton("Start");
 	// space at end to make room for "Resume"
 	private final JButton pauseButton = new JButton("Pause");
@@ -180,7 +181,7 @@ public class JpsTrack {
 	}
 
 	protected void openFile() {
-		String now = prefs.getNextFilename();
+		String now = FileNameUtils.getNextFilename();
 		setFileName(now);
 	}
 
