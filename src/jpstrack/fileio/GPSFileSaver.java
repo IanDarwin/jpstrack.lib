@@ -60,7 +60,7 @@ public class GPSFileSaver {
 		out.printf("    <ele>0</ele>%n");
 		date.setTime(time);
 		out.printf("    <time>%s</time>%n", df.format(date));
-		out.printf("</trkpt>");
+		out.printf("</trkpt>%n");
 		out.flush();
 	}
 	
