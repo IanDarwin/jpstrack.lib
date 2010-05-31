@@ -24,11 +24,11 @@ public abstract class Preferences {
 	
 	public abstract String getDefaultDirectoryPath();
 	
-	public String getDefaultFilenameFormat() {
+	public static String getDefaultFilenameFormat() {
 		return FILENAME_FORMAT;
 	}
 	
-	public String getNextFilename() {
+	public static String getNextFilename() {
 		return String.format(filenameFormat, System.currentTimeMillis());		
 	}
 
