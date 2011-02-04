@@ -25,6 +25,9 @@ public class GPSFileSaver {
 	}
 	
 	public File startFile() {
+		if (startingDir == null || fileName == null) {
+			throw new IllegalStateException("Must set startDir and fileName before call startFile()");
+		}
 		File f = new File(startingDir, fileName);
 		try {
 			out = new PrintWriter(f);
