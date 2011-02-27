@@ -82,10 +82,10 @@ public class GPSFileSaver {
 	public void setStartingDir(String startingDir) {
 		this.startingDir = startingDir;
 	}
-	public String getfileName() {
+	public String getFileName() {
 		return fileName;
 	}
-	public void setfileName(String fileName) {
+	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 }
