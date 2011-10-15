@@ -15,12 +15,20 @@ public class FileNameUtils {
 	public static String getDefaultFilenameFormat() {
 		return FILENAME_FORMAT;		
 	}
+
 	public static String getDefaultFilenameFormatWithExt() {
 		return FILENAME_FORMAT + "." + GPX_FILENAME_EXTENSION;
 	}
+
 	public static String getNextFilename() {
 		return getNextFilenamePrefix() + "." + GPX_FILENAME_EXTENSION;
 	}
+	
+	/** Return the next file name; given the suffix (which should NOT include
+	 * a leading '.', since we provide that!)
+	 * @param suffix The filename extention sans '.', e.g., "mp3"
+	 * @return The filename, e.g., foo.mp3
+	 */
 	public static String getNextFilename(String suffix) {
 		return getNextFilenamePrefix() + "." + suffix;
 	}
