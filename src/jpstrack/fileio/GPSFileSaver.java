@@ -9,13 +9,18 @@ import java.util.Date;
 
 public class GPSFileSaver {
 	
-	private String startingDir = ".";
+	private File startingDir;
 	
 	private String fileName = "test,gpx";
 	
 	private PrintWriter out;
 	
 	public GPSFileSaver(String startingDir, String fileName) {
+		this.startingDir = new File(startingDir);
+		this.fileName = fileName;
+	}
+	
+	public GPSFileSaver(File startingDir, String fileName) {
 		this.startingDir = startingDir;
 		this.fileName = fileName;
 	}
@@ -75,11 +80,10 @@ public class GPSFileSaver {
 		out.close();
 	}
 	
-
-	public String getStartingDir() {
+	public File getStartingDir() {
 		return startingDir;
 	}
-	public void setStartingDir(String startingDir) {
+	public void setStartingDir(File startingDir) {
 		this.startingDir = startingDir;
 	}
 	public String getFileName() {
