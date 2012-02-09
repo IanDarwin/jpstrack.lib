@@ -41,13 +41,13 @@ public class GPSFileSaver {
 			out.println("	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance'");
 			out.println("	xmlns='http://www.topografix.com/GPX/1/1'");
 			out.println("	xsi:schemaLocation='http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'>\r");
-			out.println("<metadata>");
+			out.println("  <metadata>");
 			out.println("  <name>JpsTrack Java Client</name>");
-			out.println("  <link href=\"http://www.darwinsys.com/jpstrack/\">");
-			out.println("    <text>Ian Darwin - jpstrack</text>");
-			out.println("  </link>");
-			out.println("  <author>Ian Darwin, Rejminet Group Inc.</author>");
-			out.println("</metadata>\r");
+			out.println("    <link href=\"http://www.darwinsys.com/jpstrack/\">");
+			out.println("      <text>Ian Darwin - jpstrack</text>");
+			out.println("    </link>");
+			out.println("    <author>Ian Darwin, Rejminet Group Inc.</author>");
+			out.println("  </metadata>\r");
 
 			out.println("");
 
