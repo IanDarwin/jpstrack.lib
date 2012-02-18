@@ -1,4 +1,7 @@
-package jpstrack.javase;
+package jpstrack;
+
+import jpstrack.model.Recorder;
+import jpstrack.prefs.Preferences;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
@@ -21,25 +24,27 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import jpstrack.fileio.FileNameUtils;
-import jpstrack.model.Recorder;
-import jpstrack.prefs.Preferences;
-
 /**
- * UI Prototype for GPS Track program for OpenStreetMap data.
+ * JavaSE UI for GPS Tracking program for OpenStreetMap data.
  */
 public class JpsTrack {
 
+	private static final String FILENAME_FORMAT = "YYYYMMDDHHMM.gpx";
+	private final static String filenameFormat = "%1$tY%1$tm%1$td%1$tH%1$tM.gpx";
 
 	public static void main(String[] args) {
 		new JpsTrack();
 	}
 
 	// Share GUI components
-	private Preferences prefs = new JavaSEPreferences();
-		
+	private Preferences prefs = new Preferences() {
+		@Override
+		public String getDefaultDirectoryPath() {
+			return System.getProperty("user.home");
+		}
+	};
 	private JDialog prefsDialog;
-	private final JLabel fileNameLabel = new JLabel(FileNameUtils.getDefaultFilenameFormatWithExt());
+	private final JLabel fileNameLabel = new JLabel(FILENAME_FORMAT);
 	private final JButton startButton = new JButton("Start");
 	// space at end to make room for "Resume"
 	private final JButton pauseButton = new JButton("Pause");
@@ -88,7 +93,7 @@ public class JpsTrack {
 
 			public void actionPerformed(ActionEvent e) {
 				if (prefsDialog == null) {
-					prefsDialog = new PreferencesDialog(mainFrame, (JavaSEPreferences)prefs);
+					prefsDialog = new PreferencesDialog(mainFrame, prefs);
 				}
 				prefsDialog.setVisible(true);
 			}
@@ -181,7 +186,7 @@ public class JpsTrack {
 	}
 
 	protected void openFile() {
-		String now = FileNameUtils.getNextFilename();
+		String now = String.format(filenameFormat, System.currentTimeMillis());
 		setFileName(now);
 	}
 
@@ -197,8 +202,8 @@ public class JpsTrack {
 
 	protected void closeFile() {
 		this.fileName = null;
-//		fileNameLabel.setText(FILENAME_FORMAT);
-//		fileNameLabel.setEnabled(false);
+		fileNameLabel.setText(FILENAME_FORMAT);
+		fileNameLabel.setEnabled(false);
 	}
 
 }
