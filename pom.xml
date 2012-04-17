@@ -7,11 +7,12 @@
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>Ian Darwin's random assortment of Java stuff</name>
-	<url>http://darwinsys.com</url>
+	<name>Ian Darwin's GeoTracking Application (JavaSE) and Library</name>
+	<url>http://darwinsys.com/jpstrack</url>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>regress</testSourceDirectory>
 		<!-- Maven takes 12 lines to say what Ant does in 2 attributes: source and target. -->
 		<plugins>
 			<plugin>
@@ -21,20 +22,6 @@
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
-					<excludes>
-						<exclude>com/darwinsys/ant/MakeTask.java</exclude>
-						<exclude>com/darwinsys/macosui/**</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
-				<configuration>
-					<excludes>
-						<exclude>**/MacOSUITest.java</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -44,7 +31,7 @@
      	<dependency>
             <groupId>com.darwinsys</groupId>
             <artifactId>darwinsys-api</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
         </dependency>
  
 	  <dependency>

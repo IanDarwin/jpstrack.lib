@@ -7,6 +7,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import jpstrack.model.Reading;
+
 public class GPSFileSaver {
 	
 	private File startingDir;
@@ -73,12 +75,22 @@ public class GPSFileSaver {
 		out.flush();
 	}
 	
+	public void write(Reading r) {
+		write(r.getTime(), r.getLatitude(), r.getLongitude());
+	}
+	
+	/** Close the file, after outputting the trailing end tags */
 	public void endFile() {
 		out.println("</trkseg>");
 		out.println("</trk>");
 		out.println("</gpx>\r");
 		out.flush();
 		out.close();
+	}
+	
+	/** Alternate name for close functionality */
+	public void close() {
+		endFile();
 	}
 	
 	public File getStartingDir() {

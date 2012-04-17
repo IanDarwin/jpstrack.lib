@@ -1,11 +1,9 @@
 package regress;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
-import gpstrack.fileio.GPSFileSaver;
-import gpstrack.model.Reading;
+import jpstrack.fileio.GPSFileSaver;
+import jpstrack.model.Reading;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +19,8 @@ public class TestFileSaver {
 
 	@Test
 	public final void testWrite() {
-		saver.setStartingDir(System.getProperty("java.tmp.dir"));
-		saver.setTemplate("testwrite.x");
+		saver.setStartingDir(new File(System.getProperty("java.tmp.dir", "/tmp")));
+		saver.setFileName("testwrite.x");
 		saver.startFile();
 		Reading r = new Reading();
 		r.setLatitude(23.4567f);
