@@ -3,13 +3,13 @@ package jpstrack.upload;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Properties;
 
 import com.darwinsys.io.FileIO;
 
@@ -30,8 +30,10 @@ public class Upload {
 		if (!gpxFile.canRead()) {
 			throw new IOException("Can't read file " + FILENAME);
 		}
+		Properties p = new Properties();
+		p.load(new FileInputStream("user.properties"));
 		String response = converse("api06.dev.openstreetmap.org", 80, "/api/0.6/gpx/create",
-				"XXX", "YYY",
+				p.getProperty("userName"), p.getProperty("password"),
 				encodePostBody( description, visibility, gpxFile));
 
 		System.out.println("Server responded thus: " + response);
