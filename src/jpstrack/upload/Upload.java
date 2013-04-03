@@ -34,7 +34,7 @@ public class Upload {
 		p.load(new FileInputStream("user.properties"));
 		String response = converse("api06.dev.openstreetmap.org", 80, "/api/0.6/gpx/create",
 				p.getProperty("userName"), p.getProperty("password"),
-				encodePostBody( description, visibility, gpxFile));
+				encodePostBody(description, visibility, gpxFile));
 
 		System.out.println("Server responded thus: " + response);
 	}
