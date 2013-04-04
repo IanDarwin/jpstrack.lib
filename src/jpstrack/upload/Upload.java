@@ -25,7 +25,7 @@ public class Upload {
 	 */
 	public static void main(String[] args) throws IOException {
 		String description = "This is a test track";
-		TrackVisibility visibility = TrackVisibility.IDENTIFIABLE;
+		TraceVisibility visibility = TraceVisibility.IDENTIFIABLE;
 		File gpxFile = new File(FILENAME);
 		if (!gpxFile.canRead()) {
 			throw new IOException("Can't read file " + FILENAME);
@@ -69,7 +69,7 @@ public class Upload {
 	}
 
 	/** Get the GPX file and other parameters into shape for POSTing */
-	public static String encodePostBody(String description, TrackVisibility visibility, File gpxFile) throws IOException {
+	public static String encodePostBody(String description, TraceVisibility visibility, File gpxFile) throws IOException {
 		StringBuffer body = new StringBuffer();
 		body.append(encodePlainTextPart("description", description, true));
 		body.append(encodePlainTextPart("visibility", visibility.toString().toLowerCase(), false));
