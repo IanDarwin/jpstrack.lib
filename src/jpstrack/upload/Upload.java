@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Properties;
 
 import com.darwinsys.io.FileIO;
@@ -20,6 +20,7 @@ public class Upload {
 	private static final String API_CREATE_URL = "/api/0.6/gpx/create";
 	private static final String FILENAME = "testdata.gpx";
 	private final static String BOUNDARY = "OSM_TRACK_FILE_42_GNORNMPLATZ";
+	private final static boolean debug = false;
 
 	/**
 	 * @param args
@@ -34,7 +35,8 @@ public class Upload {
 		}
 		Properties p = new Properties();
 		p.load(new FileInputStream("user.properties"));
-		String response = converse(p.getProperty("hostName"), 80, 
+		int port = Integer.parseInt(p.getProperty("port", "80"));
+		String response = converse(p.getProperty("hostname"), port, 
 				API_CREATE_URL,
 				p.getProperty("userName"), p.getProperty("password"),
 				encodePostBody(description, visibility, gpxFile));
@@ -45,11 +47,14 @@ public class Upload {
 	/** Handle the HTTP POST conversation */
 	public static String converse(String host, int port, String path, String userName, String password, String postBody) throws IOException {
 		URL url = new URL("http", host, port, path);
-		URLConnection conn = url.openConnection();
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestProperty("Accept", "application/xml");
-		new Base64();
-		conn.setRequestProperty("Authorization", "Basic " + Base64.encode((userName + ":" + password).getBytes()));
+		final String auth = "Basic " + new String(Base64.encode((userName + ":" + password).getBytes()));
+		conn.setRequestProperty("Authorization", auth);
 		conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+		if (debug) {
+			System.out.println(conn.getRequestProperties());
+		}
 		conn.setDoInput(true);	// we want POST!
 		conn.setDoOutput(true);
 		conn.setAllowUserInteraction(true);
@@ -94,6 +99,4 @@ public class Upload {
 				+ "Content-Disposition: form-data; name=\"" + partName + "\"\r\n\r\n" 
 				+ partBody;
 	}
-
-
 }
