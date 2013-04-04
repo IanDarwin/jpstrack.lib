@@ -12,10 +12,12 @@ import java.net.URLConnection;
 import java.util.Properties;
 
 import com.darwinsys.io.FileIO;
+import com.sun.xml.internal.messaging.saaj.util.Base64;
 
 
 public class Upload {
 
+	private static final String API_CREATE_URL = "/api/0.6/gpx/create";
 	private static final String FILENAME = "testdata.gpx";
 	private final static String BOUNDARY = "OSM_TRACK_FILE_42_GNORNMPLATZ";
 
@@ -32,7 +34,8 @@ public class Upload {
 		}
 		Properties p = new Properties();
 		p.load(new FileInputStream("user.properties"));
-		String response = converse("api06.dev.openstreetmap.org", 80, "/api/0.6/gpx/create",
+		String response = converse(p.getProperty("hostName"), 80, 
+				API_CREATE_URL,
 				p.getProperty("userName"), p.getProperty("password"),
 				encodePostBody(description, visibility, gpxFile));
 
@@ -44,7 +47,8 @@ public class Upload {
 		URL url = new URL("http", host, port, path);
 		URLConnection conn = url.openConnection();
 		conn.setRequestProperty("Accept", "application/xml");
-		conn.setRequestProperty("Authorization", "Basic " + Base64.encodeBytes((userName + ":" + password).getBytes()));
+		new Base64();
+		conn.setRequestProperty("Authorization", "Basic " + Base64.encode((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 		conn.setDoInput(true);	// we want POST!
 		conn.setDoOutput(true);
@@ -81,7 +85,7 @@ public class Upload {
 
 		body.append(FileIO.readerToString(new FileReader(gpxFile)));
 
-		body.append("\r\n--" + BOUNDARY + "--");
+		body.append("\r\n--" + BOUNDARY + "--\r\n");
 		return body.toString();
 	}
 
