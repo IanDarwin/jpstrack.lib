@@ -14,13 +14,17 @@ import java.util.Properties;
 import com.darwinsys.io.FileIO;
 import com.sun.xml.internal.messaging.saaj.util.Base64;
 
-
+/**
+ * Support for uploading GPX Trace files to OSM.
+ * Refer to http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
+ * @author Ian Darwin
+ */
 public class Upload {
 
 	private static final String API_CREATE_URL = "/api/0.6/gpx/create";
 	private static final String FILENAME = "testdata.gpx";
-	private final static String BOUNDARY = "OSM_TRACK_FILE_42_GNORNMPLATZ";
-	private final static boolean debug = false;
+	private final static String BOUNDARY = "ANOTHER_GREAT_OSM_TRACE_FILE";
+	private final static boolean debug = true;
 
 	/**
 	 * @param args
@@ -36,10 +40,15 @@ public class Upload {
 		Properties p = new Properties();
 		p.load(new FileInputStream("user.properties"));
 		int port = Integer.parseInt(p.getProperty("port", "80"));
+		final String encodedPostBody = encodePostBody(description, visibility, gpxFile);
+		if (debug) {
+			System.out.println("--- About to send this POST body: ---");
+			System.out.println(encodedPostBody);
+		}
 		String response = converse(p.getProperty("hostname"), port, 
 				API_CREATE_URL,
 				p.getProperty("userName"), p.getProperty("password"),
-				encodePostBody(description, visibility, gpxFile));
+				encodedPostBody);
 
 		System.out.println("Server responded thus: " + response);
 	}
@@ -52,8 +61,15 @@ public class Upload {
 		final String auth = "Basic " + new String(Base64.encode((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Authorization", auth);
 		conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+		//conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		conn.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
+		conn.setRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3");
+		conn.setRequestProperty("User-agent", "jpstrack uploader");
 		if (debug) {
-			System.out.println(conn.getRequestProperties());
+			System.out.println("--- About to send POST with these Request Headers: ---");
+			for (String s : conn.getRequestProperties().keySet()) {
+				System.out.println(s + " -> " + conn.getRequestProperty(s));
+			}
 		}
 		conn.setDoInput(true);	// we want POST!
 		conn.setDoOutput(true);
@@ -82,15 +98,17 @@ public class Upload {
 		StringBuffer body = new StringBuffer();
 		body.append(encodePlainTextPart("description", description, true));
 		body.append(encodePlainTextPart("visibility", visibility.toString().toLowerCase(), false));
+		body.append(encodePlainTextPart("tags", "test", false));
 
 		body.append("\r\n--" + BOUNDARY + "\r\n");
-		body.append("Content-Disposition: form-data; name=\"" + gpxFile.getName() + "\"\r\n");
-		body.append("Content-Type: application/xml\r\n");
-		body.append("Content-Transfer-Encoding: text\r\n\r\n");
+		body.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + gpxFile.getName() + "\"\r\n");
+		body.append("Content-Type: text/plain\r\n");
+		body.append("Content-Transfer-Encoding: text\r\n");
+		body.append("\r\n");
 
 		body.append(FileIO.readerToString(new FileReader(gpxFile)));
 
-		body.append("\r\n--" + BOUNDARY + "--\r\n");
+		body.append("\r\n--" + BOUNDARY + "\r\n");
 		return body.toString();
 	}
 
