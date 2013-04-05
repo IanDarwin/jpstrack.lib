@@ -4,5 +4,5 @@ package jpstrack.upload;
  * @author Ian Darwin
  */
 public enum TraceVisibility {
-	PRIVATE, PUBLIC, TRACKABLE, IDENTIFIABLE
+	PRIVATE, PUBLIC, TRACKABLE, IDENTIFIABLE;
 }

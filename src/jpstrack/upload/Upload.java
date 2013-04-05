@@ -39,13 +39,12 @@ public class Upload {
 		}
 		Properties p = new Properties();
 		p.load(new FileInputStream("user.properties"));
-		int port = Integer.parseInt(p.getProperty("port", "80"));
 		final String encodedPostBody = encodePostBody(description, visibility, gpxFile);
 		if (debug) {
 			System.out.println("--- About to send this POST body: ---");
 			System.out.println(encodedPostBody);
 		}
-		String response = converse(p.getProperty("hostname"), port, 
+		String response = converse(p.getProperty("hostname"), Integer.parseInt(p.getProperty("port", "80")), 
 				API_CREATE_URL,
 				p.getProperty("userName"), p.getProperty("password"),
 				encodedPostBody);
@@ -57,11 +56,11 @@ public class Upload {
 	public static String converse(String host, int port, String path, String userName, String password, String postBody) throws IOException {
 		URL url = new URL("http", host, port, path);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestProperty("Accept", "application/xml");
+		//conn.setRequestProperty("Accept", "application/xml");
+		//conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		final String auth = "Basic " + new String(Base64.encode((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Authorization", auth);
 		conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
-		//conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		conn.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
 		conn.setRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3");
 		conn.setRequestProperty("User-agent", "jpstrack uploader");
