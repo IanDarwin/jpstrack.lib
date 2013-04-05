@@ -24,7 +24,7 @@ public class Upload {
 	private static final String API_CREATE_URL = "/api/0.6/gpx/create";
 	private static final String FILENAME = "testdata.gpx";
 	private final static String BOUNDARY = "ANOTHER_GREAT_OSM_TRACE_FILE";
-	private final static boolean debug = true;
+	private static boolean debug = true;
 
 	/**
 	 * @param args
@@ -68,7 +68,7 @@ public class Upload {
 		if (debug) {
 			System.out.println("--- About to send POST with these Request Headers: ---");
 			for (String s : conn.getRequestProperties().keySet()) {
-				System.out.println(s + " -> " + conn.getRequestProperty(s));
+				System.out.println(s + ": " + conn.getRequestProperty(s));
 			}
 		}
 		conn.setDoInput(true);	// we want POST!
@@ -116,5 +116,9 @@ public class Upload {
 		return (first? "" : "\r\n") + "--" + BOUNDARY + "\r\n"
 				+ "Content-Disposition: form-data; name=\"" + partName + "\"\r\n\r\n" 
 				+ partBody;
+	}
+
+	public static void setDebug(boolean debug) {
+		Upload.debug = debug;
 	}
 }
