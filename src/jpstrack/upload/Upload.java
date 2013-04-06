@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.Properties;
 
 import com.darwinsys.io.FileIO;
-import com.sun.xml.internal.messaging.saaj.util.Base64;
 
 /**
  * Support for uploading GPX Trace files to OSM.
@@ -58,7 +57,7 @@ public class Upload {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		//conn.setRequestProperty("Accept", "application/xml");
 		//conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		final String auth = "Basic " + new String(Base64.encode((userName + ":" + password).getBytes()));
+		final String auth = "Basic " + new String(Base64.encodeBytes((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Authorization", auth);
 		conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 		conn.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
