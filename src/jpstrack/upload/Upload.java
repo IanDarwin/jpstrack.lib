@@ -55,14 +55,9 @@ public class Upload {
 	public static String converse(String host, int port, String path, String userName, String password, String postBody) throws IOException {
 		URL url = new URL("http", host, port, path);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		//conn.setRequestProperty("Accept", "application/xml");
-		//conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		final String auth = "Basic " + new String(Base64.encodeBytes((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Authorization", auth);
 		conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
-		conn.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
-		conn.setRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3");
-		conn.setRequestProperty("User-agent", "jpstrack uploader");
 		if (debug) {
 			System.out.println("--- About to send POST with these Request Headers: ---");
 			for (String s : conn.getRequestProperties().keySet()) {
@@ -75,10 +70,14 @@ public class Upload {
 
 		conn.connect();
 
+		
 		final OutputStream outputStream = conn.getOutputStream();
 		outputStream.write(postBody.getBytes());
 		outputStream.close();
 
+		int status = conn.getResponseCode();
+		System.out.println("Connection request status = " + status);
+		
 		StringBuilder sb = new StringBuilder();
 		BufferedReader in = new BufferedReader(
 				new InputStreamReader(
@@ -100,13 +99,12 @@ public class Upload {
 
 		body.append("\r\n--" + BOUNDARY + "\r\n");
 		body.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + gpxFile.getName() + "\"\r\n");
-		body.append("Content-Type: text/plain\r\n");
-		body.append("Content-Transfer-Encoding: text\r\n");
+		body.append("Content-Type: application/gpx+xml\r\n");
 		body.append("\r\n");
 
 		body.append(FileIO.readerToString(new FileReader(gpxFile)));
 
-		body.append("\r\n--" + BOUNDARY + "\r\n");
+		body.append("\r\n--" + BOUNDARY + "--\r\n");
 		return body.toString();
 	}
 
