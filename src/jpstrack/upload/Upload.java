@@ -43,7 +43,8 @@ public class Upload {
 			System.out.println("--- About to send this POST body: ---");
 			System.out.println(encodedPostBody);
 		}
-		String response = converse(p.getProperty("hostname"), Integer.parseInt(p.getProperty("port", "80")), 
+		UploadResponse response = 
+			converse(p.getProperty("hostname"), Integer.parseInt(p.getProperty("port", "80")), 
 				API_CREATE_URL,
 				p.getProperty("userName"), p.getProperty("password"),
 				encodedPostBody);
@@ -52,7 +53,8 @@ public class Upload {
 	}
 
 	/** Handle the HTTP POST conversation */
-	public static String converse(String host, int port, String path, String userName, String password, String postBody) throws IOException {
+	public static UploadResponse converse(String host, int port, String path, String userName, String password, String postBody) throws IOException {
+		UploadResponse ret = new UploadResponse();
 		URL url = new URL("http", host, port, path);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		final String auth = "Basic " + new String(Base64.encodeBytes((userName + ":" + password).getBytes()));
@@ -69,25 +71,25 @@ public class Upload {
 		conn.setAllowUserInteraction(true);
 
 		conn.connect();
-
 		
 		final OutputStream outputStream = conn.getOutputStream();
 		outputStream.write(postBody.getBytes());
 		outputStream.close();
 
-		int status = conn.getResponseCode();
-		System.out.println("Connection request status = " + status);
+		ret.status = conn.getResponseCode();
 		
-		StringBuilder sb = new StringBuilder();
+		// The response from this REST is a single line with the GPX ID
 		BufferedReader in = new BufferedReader(
 				new InputStreamReader(
 						conn.getInputStream()));
-		String line;
-		while ((line = in.readLine()) != null) {
-			sb.append(line);
+		String line = null;
+		if ((line = in.readLine()) != null) {
+			ret.gpxId = Long.parseLong(line);
 		}
-		in.close();
-		return sb.toString();
+		if (in != null) {
+			in.close();
+		}
+		return ret;
 	}
 
 	/** Get the GPX file and other parameters into shape for POSTing */
