@@ -23,7 +23,7 @@ public class Upload {
 	private static final String API_CREATE_URL = "/api/0.6/gpx/create";
 	private static final String FILENAME = "testdata.gpx";
 	private final static String BOUNDARY = "ANOTHER_GREAT_OSM_TRACE_FILE";
-	private static boolean debug = true;
+	private static boolean debug = false;
 
 	/**
 	 * @param args
