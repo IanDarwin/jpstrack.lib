@@ -2,14 +2,12 @@ package jpstrack.upload;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Properties;
 
 import com.darwinsys.io.FileIO;
 
@@ -21,41 +19,14 @@ import com.darwinsys.io.FileIO;
 public class Upload {
 
 	private static final String API_CREATE_URL = "/api/0.6/gpx/create";
-	private static final String FILENAME = "testdata.gpx";
 	private final static String BOUNDARY = "ANOTHER_GREAT_OSM_TRACE_FILE";
-	private static boolean debug = false;
+	static boolean debug = false;
 
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
-	public static void main(String[] args) throws IOException {
-		String description = "This is a test track";
-		TraceVisibility visibility = TraceVisibility.IDENTIFIABLE;
-		File gpxFile = new File(FILENAME);
-		if (!gpxFile.canRead()) {
-			throw new IOException("Can't read file " + FILENAME);
-		}
-		Properties p = new Properties();
-		p.load(new FileInputStream("user.properties"));
-		final String encodedPostBody = encodePostBody(description, visibility, gpxFile);
-		if (debug) {
-			System.out.println("--- About to send this POST body: ---");
-			System.out.println(encodedPostBody);
-		}
-		UploadResponse response = 
-			converse(p.getProperty("hostname"), Integer.parseInt(p.getProperty("port", "80")), 
-				API_CREATE_URL,
-				p.getProperty("userName"), p.getProperty("password"),
-				encodedPostBody);
-
-		System.out.println("Server responded thus: " + response);
-	}
 
 	/** Handle the HTTP POST conversation */
-	public static UploadResponse converse(String host, int port, String path, String userName, String password, String postBody) throws IOException {
+	public static UploadResponse converse(String host, int port, String userName, String password, String postBody) throws IOException {
 		UploadResponse ret = new UploadResponse();
-		URL url = new URL("http", host, port, path);
+		URL url = new URL("http", host, port, API_CREATE_URL);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		final String auth = "Basic " + new String(Base64.encodeBytes((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Authorization", auth);
