@@ -40,7 +40,7 @@ public class GPSFileSaver {
 			out = new PrintWriter(f);
 			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r");
 			out.println("<gpx version=\"1.1\" creator=\"GpsTrack java client\"");
-			out.println("	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance'");
+			out.println("	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
 			out.println("	xmlns='http://www.topografix.com/GPX/1/1'");
 			out.println("	xsi:schemaLocation='http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'>\r");
 			out.println("  <metadata>");
