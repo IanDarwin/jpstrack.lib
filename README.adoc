@@ -1,0 +1,4 @@
+== jpstrack core
+
+This is the Java SE version of jpstrack, and also the core library
+for other versions such as jpstrack.android.
