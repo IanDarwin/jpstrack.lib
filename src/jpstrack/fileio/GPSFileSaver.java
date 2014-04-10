@@ -105,4 +105,7 @@ public class GPSFileSaver {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+	public File getFile() {
+		return new File(startingDir, fileName);
+	}
 }
