@@ -1,0 +1,13 @@
+# This is only needed to run the UploadDemo.
+# You need to change these for your OSM account settings.
+
+userName=your_name_here
+
+# production API
+password=your_password_here
+hostname=api.openstreetmap.org
+
+# Test API
+#password=your_password_here
+#password=invalidPwToTest401handling
+#hostname=api06.dev.openstreetmap.org
