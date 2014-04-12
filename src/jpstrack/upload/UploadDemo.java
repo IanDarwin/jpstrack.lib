@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import jpstrack.net.NetResult;
+
 /**
  * Standalone demo of the Uploader
  * @author Ian Darwin
@@ -35,7 +37,7 @@ public class UploadDemo {
 			System.out.println("--- About to send this POST body: ---");
 			System.out.println(encodedPostBody);
 		}
-		UploadResponse response = 
+		NetResult<String> response = 
 			Upload.converse(p.getProperty("hostname"), Integer.parseInt(p.getProperty("port", "80")), 
 				p.getProperty("userName"), p.getProperty("password"),
 				encodedPostBody);

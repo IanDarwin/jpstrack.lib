@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import jpstrack.net.NetResult;
+
 /**
  * Support for uploading GPX Trace files to OSM.
  * Refer to http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
@@ -22,8 +24,8 @@ public class Upload {
 
 
 	/** Handle the HTTP POST conversation */
-	public static UploadResponse converse(String host, int port, String userName, String password, String postBody) throws IOException {
-		UploadResponse ret = new UploadResponse();
+	public static NetResult<String> converse(String host, int port, String userName, String password, String postBody) throws IOException {
+		NetResult<String> ret = new NetResult<>();
 		URL url = new URL("http", host, port, API_CREATE_URL);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		final String auth = "Basic " + new String(Base64.encodeBytes((userName + ":" + password).getBytes()));
@@ -45,7 +47,7 @@ public class Upload {
 		outputStream.write(postBody.getBytes());
 		outputStream.close();
 
-		ret.status = conn.getResponseCode();
+		ret.setStatus(conn.getResponseCode());
 		
 		// The response from this REST is a single line with the GPX ID
 		BufferedReader in = new BufferedReader(
@@ -53,11 +55,9 @@ public class Upload {
 						conn.getInputStream()));
 		String line = null;
 		if ((line = in.readLine()) != null) {
-			ret.gpxId = Long.parseLong(line);
+			ret.setPayload(line);
 		}
-		if (in != null) {
-			in.close();
-		}
+		in.close();
 		return ret;
 	}
 
