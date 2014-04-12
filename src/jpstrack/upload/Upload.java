@@ -23,16 +23,18 @@ public class Upload {
 	static boolean debug = false;
 
 
-	/** Handle the HTTP POST conversation */
+	/** Handle the HTTP POST conversation; see
+	 * http://wiki.openstreetmap.org/wiki/API_v0.6#Uploading_traces
+	 */
 	public static NetResult<String> converse(String host, int port, String userName, String password, String postBody) throws IOException {
-		NetResult<String> ret = new NetResult<>();
+		NetResult<String> ret = new NetResult<String>();
 		URL url = new URL("http", host, port, API_CREATE_URL);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		final String auth = "Basic " + new String(Base64.encodeBytes((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Authorization", auth);
 		conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 		if (debug) {
-			System.out.println("--- About to send POST with these Request Headers: ---");
+			System.out.println("--- About to POST to " + url + " with these Request Headers: ---");
 			for (String s : conn.getRequestProperties().keySet()) {
 				System.out.println(s + ": " + conn.getRequestProperty(s));
 			}
@@ -49,7 +51,7 @@ public class Upload {
 
 		ret.setStatus(conn.getResponseCode());
 		
-		// The response from this REST is a single line with the GPX ID
+		// The response from this REST is a single line with the GPX files new ID
 		BufferedReader in = new BufferedReader(
 				new InputStreamReader(
 						conn.getInputStream()));
