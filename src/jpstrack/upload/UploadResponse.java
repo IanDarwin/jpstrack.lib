@@ -19,4 +19,12 @@ public class UploadResponse {
 	public long getGpxId() {
 		return gpxId;
 	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public void setGpxId(long gpxId) {
+		this.gpxId = gpxId;
+	}
 }
