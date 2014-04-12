@@ -9,8 +9,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.darwinsys.io.FileIO;
-
 /**
  * Support for uploading GPX Trace files to OSM.
  * Refer to http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
@@ -75,7 +73,12 @@ public class Upload {
 		body.append("Content-Type: application/gpx+xml\r\n");
 		body.append("\r\n");
 
-		body.append(FileIO.readerToString(new FileReader(gpxFile)));
+		BufferedReader is = new BufferedReader(new FileReader(gpxFile));
+		String line = null; 
+		while ((line = is.readLine()) != null) {
+			body.append(line);
+		}
+		is.close();
 
 		body.append("\r\n--" + BOUNDARY + "--\r\n");
 		return body.toString();
