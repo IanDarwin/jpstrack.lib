@@ -22,11 +22,13 @@ public class Upload {
 	private final static String BOUNDARY = "ANOTHER_GREAT_OSM_TRACE_FILE";
 	static boolean debug = false;
 
-
 	/** Handle the HTTP POST conversation; see
 	 * http://wiki.openstreetmap.org/wiki/API_v0.6#Uploading_traces
 	 */
 	public static NetResult<String> converse(String host, int port, String userName, String password, String postBody) throws IOException {
+		if (debug) {
+			System.out.printf("Upload: %s:%d User %s pass %s%n", host, port, userName, password);
+		}
 		NetResult<String> ret = new NetResult<String>();
 		URL url = new URL("http", host, port, API_CREATE_URL);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
