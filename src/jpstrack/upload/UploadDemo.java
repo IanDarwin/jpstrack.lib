@@ -37,9 +37,18 @@ public class UploadDemo {
 			System.out.println("--- About to send this POST body: ---");
 			System.out.println(encodedPostBody);
 		}
+		final String hostName = p.getProperty("hostname");
+		if (hostName == null) {
+			throw new IllegalArgumentException("hostname in properties must not be null");
+		}
+		final String userName = p.getProperty("userName");
+		final String password = p.getProperty("password");
+		if (userName == null || password == null) {
+			throw new IllegalArgumentException("username/password in properties must not be null");
+		}
 		NetResult<String> response = 
-			Upload.converse(p.getProperty("hostname"), Integer.parseInt(p.getProperty("port", "80")), 
-				p.getProperty("userName"), p.getProperty("password"),
+			Upload.converse(hostName, Integer.parseInt(p.getProperty("port", "80")), 
+				userName, password,
 				encodedPostBody);
 
 		System.out.println("Server responded thus: " + response);
