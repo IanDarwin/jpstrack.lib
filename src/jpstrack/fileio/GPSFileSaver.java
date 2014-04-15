@@ -38,24 +38,24 @@ public class GPSFileSaver {
 		File f = new File(startingDir, fileName);
 		try {
 			out = new PrintWriter(f);
-			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r");
+			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			out.println("<gpx version=\"1.1\" creator=\"GpsTrack java client\"");
 			out.println("	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
 			out.println("	xmlns='http://www.topografix.com/GPX/1/1'");
-			out.println("	xsi:schemaLocation='http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'>\r");
+			out.println("	xsi:schemaLocation='http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'>");
 			out.println("  <metadata>");
 			out.println("  <name>JpsTrack Java Client</name>");
 			out.println("    <link href=\"http://www.darwinsys.com/jpstrack/\">");
 			out.println("      <text>Ian Darwin - jpstrack</text>");
 			out.println("    </link>");
 			out.println("    <author>Ian Darwin, Rejminet Group Inc.</author>");
-			out.println("  </metadata>\r");
+			out.println("  </metadata>");
 
 			out.println("");
 
 			out.println("<!-- track start -->");
 			out.println("<trk>");
-			out.println("<trkseg>\r");
+			out.println("<trkseg>");
 			return f;
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException("Can't create file " + f, e);
@@ -71,7 +71,7 @@ public class GPSFileSaver {
 		out.printf("    <ele>0</ele>%n");
 		date.setTime(time);
 		out.printf("    <time>%s</time>%n", df.format(date));
-		out.printf("</trkpt>\r%n");
+		out.printf("</trkpt>%n");
 		out.flush();
 	}
 	
@@ -83,7 +83,7 @@ public class GPSFileSaver {
 	public void endFile() {
 		out.println("</trkseg>");
 		out.println("</trk>");
-		out.println("</gpx>\r");
+		out.println("</gpx>");
 		out.flush();
 		out.close();
 	}
