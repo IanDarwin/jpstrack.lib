@@ -1,30 +1,38 @@
-<?xml version='1.0' encoding='utf-8'?>
-<gpx version='1.1' creator='GpsTrack java client'
-	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-	xmlns='http://www.topografix.com/GPX/1.1'
-	xsi:schemaLocation='http://www.topografix.com/GPS/1/1
-						http://www.topografix.com/GPX/1/1/gpx.xsd'>
-<metadata>
-  <name>GpsTrack java client</name>
-  <author>Ian Darwin (http://www.darwinsys.com/</author>
-  <copyright>2-clause BSD License</copyright>
-</metadata>
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<gpx version="1.1"
+    creator="GpsTrack java client"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns='http://www.topografix.com/GPX/1/1'
+    xsi:schemaLocation='http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'>
+  <metadata>
+    <name>jpstrack GPS Receiver track log</name>
+    <time>2014-04-14T21:57:06.00-0400</time>
+  </metadata>
 
 <!-- track start -->
 <trk>
+<src>Logged using jpstrack</src>
+<link href="http://darwinsys.com/jpstrack"><text>RejmiNet Group Inc.</text></link>
 <trkseg>
+<trkpt lat='45.678900' lon='-80.000000'>
+    <ele>0</ele>
+    <time>2014-04-14T21:55:02.00-0400</time>
+    <fix>3d</fix>
+</trkpt>
 <trkpt lat='44.068195' lon='-79.506640'>
-    <fix>3d</fix>
     <ele>0</ele>
-    <time>2011-02-04T08:42:51.00-0500</time>
-</trkpt><trkpt lat='44.068249' lon='-79.506356'>
+    <time>2014-04-14T21:55:03.00-0400</time>
     <fix>3d</fix>
+</trkpt>
+<trkpt lat='44.068249' lon='-79.506356'>
     <ele>0</ele>
-    <time>2011-02-04T08:42:52.00-0500</time>
-</trkpt><trkpt lat='44.068249' lon='-79.506190'>
+    <time>2014-04-14T21:55:04.00-0400</time>
     <fix>3d</fix>
+</trkpt>
+<trkpt lat='44.068249' lon='-79.506190'>
     <ele>0</ele>
-    <time>2011-02-04T08:42:53.00-0500</time>
+    <time>2014-04-14T21:55:05.00-0400</time>
+    <fix>3d</fix>
 </trkpt>
 </trkseg>
 </trk>
