@@ -12,3 +12,8 @@ running someplace where you can contact it.
 
 To use as a library for the Android version, run "maven install" which will build it and install
 into your $HOME/.m2/repository.
+
+=== HowTo - Android
+
+To use this on Android, get the Android GUI project, from 
+link:$$https://github.com/IanDarwin/jpstrack$$[].
