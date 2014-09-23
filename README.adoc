@@ -3,17 +3,21 @@
 This is the Java SE version of jpstrack, and also the core library
 for other versions such as jpstrack.android.
 
-=== HowTo - JavaSE
+=== HowTo - Build
+
+Build with either maven, or Eclipse with M2E plugin installed (from Eclipse Market).
+
+=== HowTo - Use with JavaSE
 
 The JavaSe version assumes that you have link:$$http://gpsd.berlios.de/$$[gpsd] installed and
 running someplace where you can contact it.
 
-=== HowTo - Library
+=== HowTo - Use as a Library
 
 To use as a library for the Android version, run "maven install" which will build it and install
 into your $HOME/.m2/repository.
 
-=== HowTo - Android
+=== HowTo - Use with Android
 
 To use this on Android, get the Android GUI project, from 
 link:$$https://github.com/IanDarwin/jpstrack.android$$[].
