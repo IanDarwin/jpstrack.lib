@@ -11,8 +11,6 @@
 	<url>http://darwinsys.com/jpstrack</url>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>regress</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
