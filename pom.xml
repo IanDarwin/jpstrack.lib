@@ -6,9 +6,38 @@
 	<artifactId>jpstrack</artifactId>
 	<version>1.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<inceptionYear>2007</inceptionYear>
 
 	<name>Ian Darwin's GeoTracking Application (JavaSE) and Library</name>
+	<description>
+        Ian Darwin's GeoTracking application (using Unix gpsd) and library.
+	</description>
 	<url>http://darwinsys.com/jpstrack</url>
+
+	<licenses>
+		<license>
+		<name>BSD 2-Clause "New" or "Revised" license</name>
+		<url>http://opensource.org/licenses/BSD-2-Clause</url>
+		<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+	    <connection>scm:git:git@github.com:IanDarwin/jpstrack.git</connection>
+        <developerConnection>scm:git:git@github.com:IanDarwin/jpstrack.git</developerConnection>
+		<url>git@github.com:IanDarwin/jpstrack.git</url>
+	</scm>
+	<developers>
+		<developer>
+		<id>ian</id>
+		<name>Ian Darwin</name>
+		</developer>
+	</developers>
+	
+	 <parent>
+       <groupId>org.sonatype.oss</groupId>
+       <artifactId>oss-parent</artifactId>
+       <version>7</version>
+    </parent>
 
 	<properties>
 		<javase-version>1.7</javase-version>
@@ -41,6 +70,38 @@
 	    <groupId>junit</groupId>
 	    <artifactId>junit</artifactId>
 	    <version>4.8.2</version>
+		<scope>test</scope>
 	  </dependency>
 	</dependencies>
+
+	<!-- The only profile we use is for signing releases. -->
+	<profiles>
+	  <profile>
+	    <id>release-sign-artifacts</id>
+	    <activation>
+	      <property>
+		<name>performRelease</name>
+		<value>true</value>
+	      </property>
+	    </activation>
+	    <build>
+	      <plugins>
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-gpg-plugin</artifactId>
+		  <version>1.1</version>
+		  <executions>
+		    <execution>
+		      <id>sign-artifacts</id>
+		      <phase>verify</phase>
+		      <goals>
+			<goal>sign</goal>
+		      </goals>
+		    </execution>
+		  </executions>
+		</plugin>
+	      </plugins>
+	    </build>
+	  </profile>
+	</profiles>
 </project>
