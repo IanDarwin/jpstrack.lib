@@ -19,10 +19,6 @@ public class UploadDemo {
 	
 	private static final boolean debug = Upload.debug;
 
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
 	public static void main(String[] args) throws IOException {
 		String description = "This is a test track";
 		TraceVisibility visibility = TraceVisibility.IDENTIFIABLE;
@@ -53,6 +49,5 @@ public class UploadDemo {
 
 		System.out.println("Server responded thus: " + response);
 	}
-
 
 }

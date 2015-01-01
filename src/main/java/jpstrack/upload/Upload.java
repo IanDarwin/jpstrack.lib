@@ -24,6 +24,13 @@ public class Upload {
 
 	/** Handle the HTTP POST conversation; see
 	 * http://wiki.openstreetmap.org/wiki/API_v0.6#Uploading_traces
+	 * @param host Host IP name
+	 * @param port TCP port
+	 * @param userName Login name
+	 * @param password You guessed it
+	 * @param postBody POST Body; if null, will use GET
+	 * @return NetResult containing the payload
+	 * @throws IOException on network failure
 	 */
 	public static NetResult<String> converse(String host, int port, String userName, String password, String postBody) throws IOException {
 		if (debug) {
@@ -65,7 +72,13 @@ public class Upload {
 		return ret;
 	}
 
-	/** Get the GPX file and other parameters into shape for POSTing */
+	/** Get the GPX file and other parameters into shape for POSTing
+	 * @param description Textual description of track
+	 * @param visibility OSM visibility (enum)
+	 * @param gpxFile Existing GPX file
+	 * @return Encoded version of the string, for use in POST
+	 * @throws IOException Usually a problem with charset encoding here.
+	 */
 	public static String encodePostBody(String description, TraceVisibility visibility, File gpxFile) throws IOException {
 		StringBuffer body = new StringBuffer();
 		body.append(encodePlainTextPart("description", description, true));

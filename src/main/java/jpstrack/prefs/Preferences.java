@@ -13,7 +13,9 @@ public abstract class Preferences {
 	/** password for OSM upload account */
 	private String password;
 	
-	/** Return the platform-dependant default directory path */
+	/** 
+	 * @return the platform-dependant default directory path
+	 */
 	public abstract String getDefaultDirectoryPath();
 
 	public String getDirectoryPath() {

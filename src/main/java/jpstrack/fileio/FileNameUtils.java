@@ -6,7 +6,7 @@ public class FileNameUtils {
 	public static final String GPX_FILENAME_EXTENSION = "gpx";
 	private final static String FILENAME_PRINTF_TEMPLATE = "%1$tY%1$tm%1$td%1$tH%1$tM";
 
-	/** This may become a facility for interpreting filename formats */
+	// This may become a facility for interpreting filename formats
 	//	private static Map<String,String> formatMap = new HashMap<String,String>();
 	//	static {
 	//		formatMap.put("YYYY", "$tY");
