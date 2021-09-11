@@ -1,4 +1,0 @@
-Portability.
-	
-JavaSE version
-	Catch bg-thread exceptions
