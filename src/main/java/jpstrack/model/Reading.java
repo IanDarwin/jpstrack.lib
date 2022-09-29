@@ -4,11 +4,14 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public record Reading(
-	double latitude,
-	double longitude,
-	double altitude,
-	long time) {
+public class Reading {
+
+	public Reading(double latitude, double longitude, double altitude, long time) {
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.altitude = altitude;
+		this.time = time;
+	}
 
 	public double getLatitude() {
 		return latitude;
