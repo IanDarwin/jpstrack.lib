@@ -1,6 +1,8 @@
 package jpstrack.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public record Reading(
 	double latitude,
@@ -24,7 +26,7 @@ public record Reading(
 	@Override
 	public String toString() {
 		return String.format("R[%s, LAT %f, LON %f, Alt %f]",
-			LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZoneId.systemDefault()),
+			LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()),
 			latitude, longitude, altitude);
 	}
 }
