@@ -1,33 +1,30 @@
 package jpstrack.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-public class Reading {
-	long time;
-	double latitude;
-	double longitude;
+public record Reading(
+	double latitude,
+	double longitude,
+	double altitude,
+	long time) {
+
 	public double getLatitude() {
 		return latitude;
-	}
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
 	}
 	public double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+	public double getAltitude() {
+		return altitude;
 	}
 	public long getTime() {
 		return time;
 	}
-	public void setTime(long time) {
-		this.time = time;
-	}
 	
 	@Override
 	public String toString() {
-		return String.format("R[%s, LAT %f, LON %f[",
-				new Date(time), latitude, longitude);
+		return String.format("R[%s, LAT %f, LON %f, Alt %f]",
+			LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZoneId.systemDefault()),
+			latitude, longitude, altitude);
 	}
 }

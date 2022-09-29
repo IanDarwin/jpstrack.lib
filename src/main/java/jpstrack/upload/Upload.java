@@ -13,7 +13,7 @@ import jpstrack.net.NetResult;
 
 /**
  * Support for uploading GPX Trace files to OSM.
- * Refer to http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
+ * Refer to https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
  * @author Ian Darwin
  */
 public class Upload {
@@ -23,7 +23,7 @@ public class Upload {
 	static boolean debug = false;
 
 	/** Handle the HTTP POST conversation; see
-	 * http://wiki.openstreetmap.org/wiki/API_v0.6#Uploading_traces
+	 * https://wiki.openstreetmap.org/wiki/API_v0.6#Uploading_traces
 	 * @param host Host IP name
 	 * @param port TCP port
 	 * @param userName Login name
@@ -37,7 +37,7 @@ public class Upload {
 			System.out.printf("Upload: %s:%d User %s pass %s%n", host, port, userName, password);
 		}
 		NetResult<String> ret = new NetResult<String>();
-		URL url = new URL("http", host, port, API_CREATE_URL);
+		URL url = new URL("https", host, port, API_CREATE_URL);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		final String auth = "Basic " + new String(Base64.encodeBytes((userName + ":" + password).getBytes()));
 		conn.setRequestProperty("Authorization", auth);

@@ -43,16 +43,13 @@ public class GpsdDataGetter implements DataGetter {
 			throw new IllegalStateException(
 			"Dunno what you connected me to, but it's not GPSD:" + line);
 		}
-		Reading r = new Reading();
 		String time_t = tok.nextToken(".");
 		long time = Long.parseLong(time_t.trim());
-		r.setTime(time);
 		tok.nextToken(" ");
 		tok.nextToken();
 		float lat = Float.parseFloat(tok.nextToken().trim());
-		r.setLatitude(lat);
 		float lon = Float.parseFloat(tok.nextToken().trim());
-		r.setLongitude(lon);
+		Reading r = new Reading(time, lat, lon, 0);
 		return r;
 	}
 

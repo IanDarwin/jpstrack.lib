@@ -65,18 +65,29 @@ public class GPSFileSaver {
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.00Z");
 	Date date = new Date();
 	
-	public void write(long time, double latitude, double longitude) {
+	/**
+	 * Write one reading's data to the file.
+	 */
+	public void write(long time, double latitude, double longitude, double elev) {
 		out.printf("<trkpt lat='%f' lon='%f'>%n", latitude, longitude);
-		out.printf("    <ele>0</ele>%n");
+		out.printf("    <ele>%f</ele>%n", elev);
 		date.setTime(time);
 		out.printf("    <time>%s</time>%n", df.format(date));
 		out.printf("    <fix>3d</fix>%n");
 		out.printf("</trkpt>%n");
 		out.flush();
 	}
+
+	/** Compatibility */
+	public void write(long time, double latitude, double longitude) {
+		write(time, latitude, longitude, 0);
+	}
 	
+	/**
+	 * Write one reading data to the file.
+	 */
 	public void write(Reading r) {
-		write(r.getTime(), r.getLatitude(), r.getLongitude());
+		write(r.getTime(), r.getLatitude(), r.getLongitude(), r.getAltitude());
 	}
 	
 	/** Close the file, after outputting the trailing end tags */

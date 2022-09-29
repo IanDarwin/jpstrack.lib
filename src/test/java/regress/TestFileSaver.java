@@ -36,10 +36,7 @@ public class TestFileSaver {
 		saver.setFileName("testdata.gpx");
 		saver.startFile();
 		for (double[] row : data) {
-			Reading r = new Reading();
-			r.setLatitude(row[0]);
-			r.setLongitude(row[1]);
-			r.setTime((long)row[2]);
+			Reading r = new Reading(row[0], row[1], 0, (long)row[2]);
 			saver.write(r);
 		}
 		saver.close();
